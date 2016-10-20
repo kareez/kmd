@@ -84,13 +84,13 @@ abstract class MdParagraph {
 class MdNormal : MdParagraph(), TextContainer {
     override val children = mutableListOf<MdText>()
 
-    override fun build(): Paragraph = Paragraph.Normal(this.children.map { it.build() }.toList())
+    override fun build(): Paragraph = Paragraph.Normal(this.children.map(MdText::build).toList())
 }
 
 open class MdHead(val i: Int) : MdParagraph(), TextContainer {
     override val children = mutableListOf<MdText>()
 
-    override fun build(): Paragraph = Paragraph.Heading(i, this.children.map { it.build() }.toList())
+    override fun build(): Paragraph = Paragraph.Heading(i, this.children.map(MdText::build).toList())
 }
 
 class MdHead1 : MdHead(1)
@@ -149,13 +149,13 @@ class MdPlain(val text: String) : MdText() {
 class MdEmph() : MdText(), TextContainer {
     override val children = mutableListOf<MdText>()
 
-    override fun build(): Text = Text.Emph(children.map { it.build() }.toList())
+    override fun build(): Text = Text.Emph(children.map(MdText::build).toList())
 }
 
 class MdBold() : MdText(), TextContainer {
     override val children = mutableListOf<MdText>()
 
-    override fun build(): Text = Text.Bold(children.map { it.build() }.toList())
+    override fun build(): Text = Text.Bold(children.map(MdText::build).toList())
 }
 
 class MdCode(val text: String) : MdText() {
@@ -177,5 +177,5 @@ class MdImage(val src: String, val alt: String) : MdText() {
 class MdStruck : MdText(), TextContainer {
     override val children = mutableListOf<MdText>()
 
-    override fun build(): Text = Text.Struck(children.map { it.build() }.toList())
+    override fun build(): Text = Text.Struck(children.map(MdText::build).toList())
 }

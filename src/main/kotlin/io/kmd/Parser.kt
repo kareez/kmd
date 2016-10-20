@@ -222,11 +222,11 @@ class Parser {
     }
 
     private fun readUlist(indent: Int, lines: MutableList<Line>): Paragraph? {
-        return readList(indent, lines, { items -> Ulist(items) }, { ULIST.match(it) })
+        return readList(indent, lines, ::Ulist, { ULIST.match(it) })
     }
 
     private fun readOlist(indent: Int, lines: MutableList<Line>): Paragraph? {
-        return readList(indent, lines, { items -> Olist(items) }, { OLIST.match(it) })
+        return readList(indent, lines, ::Olist, { OLIST.match(it) })
     }
 
     private fun readList(indent: Int,
@@ -285,12 +285,10 @@ class Parser {
             content.matchesAt(n, "~~", state.max) -> delimited("~~", content, state, n) { first, last ->
                 Struck(scan(content, State(last), first))
             }
-            content.matchesAt(n, "![", state.max) -> maybeLink("![", content, state, n + 2) { ref ->
-                Image(ref.src, ref.desc)
+            content.matchesAt(n, "![", state.max) -> maybeLink("![", content, state, n + 2) { (src, desc) ->
+                Image(src, desc)
             }
-            content.matchesAt(n, "[", state.max) -> maybeLink("[", content, state, n + 1) { ref ->
-                ref.toText()
-            }
+            content.matchesAt(n, "[", state.max) -> maybeLink("[", content, state, n + 1, Ref::toText)
             content.matchesAt(n, "\\", state.max) && (n + 1 < state.max) -> {
                 state.put(content[n + 1])
                 scan(content, state, n + 2)
@@ -400,7 +398,7 @@ class Parser {
             const val TAB_SIZE = 8
 
             fun new(line: String, indent: Int = 0): Line {
-                val spaces = line.takeWhile { it.isWhitespace() }.map { if (it == '\t') TAB_SIZE else 1 }.sum()
+                val spaces = line.takeWhile(Char::isWhitespace).map { if (it == '\t') TAB_SIZE else 1 }.sum()
                 val content = line.trim()
 
                 return Line(content, indent + spaces, content.isEmpty())
