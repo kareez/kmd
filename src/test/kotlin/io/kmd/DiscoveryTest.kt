@@ -117,8 +117,8 @@ class DiscoveryTest {
     @Ignore
     @Test
     fun todo() {
-        // TODO: start the renderer
         // TODO: live demo
+        // TODO: anchor???
     }
 }
 
