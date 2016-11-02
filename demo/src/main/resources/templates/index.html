@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>A Live Demo for KMD</title>
+    <style type="text/css">
+        .f-row {
+            display: flex;
+        }
+
+        .f-grow-1 {
+            flex-grow: 1;
+        }
+
+        .head-container {
+            margin: 0.5em;
+        }
+
+        .head-container > div {
+            margin-right:0.5em;
+        }
+
+        .body-container {
+            min-height: 500px;
+            background-color: aliceblue;
+        }
+
+        .full-size {
+            width: 100%;
+            height: 100%;
+        }
+
+        .section {
+            margin: 1em;
+            background-color: white;
+            padding:0.5em;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <span>Try It</span>
+</div>
+<form action="/view" method="POST">
+    <div class="f-row head-container">
+        <div>
+            <a href="/reset"> Rest </a>
+        </div>
+        <div>
+            <input type="submit" value="View"/>
+        </div>
+    </div>
+
+    <div class="f-row body-container">
+        <div class="f-grow-1 section">
+            <textarea th:text="${markdown}" name="markdown" cols="20" class="full-size"></textarea>
+        </div>
+        <div class="f-grow-1 section">
+            <div class="full-size" th:utext="${markup}"></div>
+        </div>
+    </div>
+
+</form>
+</body>
+</html>
