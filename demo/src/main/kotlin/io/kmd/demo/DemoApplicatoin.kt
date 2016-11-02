@@ -35,14 +35,6 @@ class MainController
 @Autowired constructor(private val parser: Parser,
                        private val html: Html) {
 
-    companion object {
-        private val DEFAULT_MARKDOWN =
-                """
-                #### This is the default one
-                > Try it yourself
-                """.trimIndent()
-    }
-
     @GetMapping("/")
     fun home(model: ModelMap): ModelAndView = ModelAndView("index", update(model, DEFAULT_MARKDOWN))
 
@@ -59,3 +51,86 @@ class MainController
         return model
     }
 }
+
+private val DEFAULT_MARKDOWN =
+        """
+        # KMD (Markdown to HTML Converter)
+
+        # Headings
+
+        You can create a heading by adding one or more # symbols before your heading text.
+        ```
+        # The largest heading (a h1 tag)
+        ## The second largest heading (a h2 tag)
+        …
+        ###### The 6th largest heading (a h6 tag)
+        ```
+
+        # Styling text
+
+        You can make text **bold**, *italic* or ~~struck~~.
+
+        ```
+        *This text will be italic*. _this one too_
+
+        **This text will be bold** and __this one too__
+
+        ~~This ext will be struked~~
+        ```
+
+        # Blockquotes
+
+        > You can indicate blockquotes with a >.
+
+        ```
+        Example:
+        > A quoted text
+        >>
+        ```
+
+        # Links
+
+        Following forms of links are supported:
+
+        ```
+
+        [normal link](www.google.com)
+
+        [](#ancher)
+
+        ![image](https://www.gstatic.com/webp/gallery3/2.png)
+        ```
+
+        # Lists
+        ## Unordered
+        ```
+        * Red
+        * White
+        * Green
+        ```
+        ## Ordered
+        ```
+        ! Red
+        ! White
+        ! Green
+        ```
+
+        # Code Formating
+        ## Inline
+
+        Use single backticks to `format` text in a special monospace format.
+
+        ```
+           `This` is an inline format
+        ```
+
+        ## Multiple Lines
+
+        You can also use triple backticks to format text as its own distinct block.
+
+        ```
+          val x = 10
+          val y = 20
+          val z = x + y
+        ```
+        """.trimIndent()

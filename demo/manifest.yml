@@ -1,0 +1,5 @@
+applications:
+- name: kmd-demo
+  memory: 512M
+  instances: 1
+  path: ./build/libs/demo-1.0-SNAPSHOT.jar
