@@ -2,60 +2,62 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>A Live Demo for KMD</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
+    <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.indigo-pink.min.css"/>
+
     <style type="text/css">
-        .f-row {
-            display: flex;
+        body {
+            padding: 1em;
         }
 
-        .f-grow-1 {
-            flex-grow: 1;
+        h3.headline {
+            padding-left: 8px;
         }
 
-        .head-container {
-            margin: 0.5em;
+        code {
+            background-color: rgba(0,0,0, 0.1);
+            padding: 0.3em 0.2em 0.2em 0.2em;
+            border-radius: 5px;
         }
 
-        .head-container > div {
-            margin-right:0.5em;
+        pre {
+            background-color: rgba(0,0,0, 0.1);
+            padding: 0.5em;
+            border-radius: 5px;
         }
 
-        .body-container {
-            min-height: 500px;
-            background-color: aliceblue;
+        quote {
+            display: inline-block;
+            color: #6f6f6f;
+            margin: 0 0 0 1em;
+            padding: 0.5em 0 0 1em;
+            border-left: 1px solid #ddd;
         }
 
-        .full-size {
-            width: 100%;
+        textarea {
             height: 100%;
         }
 
-        .section {
-            margin: 1em;
-            background-color: white;
-            padding:0.5em;
-        }
     </style>
 </head>
 <body>
-<div>
-    <span>Try It</span>
-</div>
+<h3 class="headline">A live demo of KMD supported markdowns</h3>
 <form action="/view" method="POST">
-    <div class="f-row head-container">
-        <div>
-            <a href="/reset"> Rest </a>
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--4-col">
+            <a href="/reset" class="mdl-button mdl-button--raised"> Rest </a>
         </div>
-        <div>
-            <input type="submit" value="View"/>
+        <div class="mdl-cell mdl-cell--1-col">
+            <input type="submit" class="mdl-button mdl-button--raised" value="View"/>
         </div>
     </div>
 
-    <div class="f-row body-container">
-        <div class="f-grow-1 section">
-            <textarea th:text="${markdown}" name="markdown" cols="20" class="full-size"></textarea>
+    <div class="mdl-grid">
+        <div class="mdl-cell mdl-cell--5-col">
+            <textarea th:text="${markdown}" name="markdown" class="mdl-textfield__input" ></textarea>
         </div>
-        <div class="f-grow-1 section">
-            <div class="full-size" th:utext="${markup}"></div>
+        <div class="mdl-cell mdl-cell--5-col">
+            <div th:utext="${markup}"></div>
         </div>
     </div>
 

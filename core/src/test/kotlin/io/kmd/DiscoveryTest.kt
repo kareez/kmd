@@ -117,7 +117,6 @@ class DiscoveryTest {
     @Ignore
     @Test
     fun todo() {
-        // TODO: live demo
         // TODO: anchor???
         // TODO: Ordered list
     }
