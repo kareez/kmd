@@ -1,6 +1,5 @@
 package io.kmd
 
-import org.junit.Ignore
 import org.junit.Test
 
 class DiscoveryTest {
@@ -112,13 +111,6 @@ class DiscoveryTest {
         val list = mutableListOf(1, 2, 3, 4, 5, 6, 7)
 
         list.takeWhile { it < 5 }.map { list.removeAt(0); it }.forEach { }
-    }
-
-    @Ignore
-    @Test
-    fun todo() {
-        // TODO: anchor???
-        // TODO: Ordered list
     }
 }
 

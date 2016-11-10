@@ -19,7 +19,7 @@ sealed class Text {
 
     data class Link(val src: String, val desc: String) : Text()
 
-    data class Anchor(val src: String) : Text()
+    data class Anchor(val id: String) : Text()
 
     data class Image(val src: String, val alt: String) : Text()
 }

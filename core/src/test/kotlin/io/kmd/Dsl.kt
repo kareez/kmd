@@ -65,7 +65,7 @@ interface TextContainer {
 
     fun l(src: String, desc: String) = children.add(MdLink(src, desc))
 
-    fun a(src: String) = children.add(MdAnchor(src))
+    fun a(id: String) = children.add(MdAnchor(id))
 
     fun i(src: String, alt: String) = children.add(MdImage(src, alt))
 }
@@ -166,8 +166,8 @@ class MdLink(val src: String, val desc: String) : MdText() {
     override fun build(): Text = Text.Link(src, desc)
 }
 
-class MdAnchor(val src: String) : MdText() {
-    override fun build(): Text = Text.Anchor(src)
+class MdAnchor(val id: String) : MdText() {
+    override fun build(): Text = Text.Anchor(id)
 }
 
 class MdImage(val src: String, val alt: String) : MdText() {

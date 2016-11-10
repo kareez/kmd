@@ -52,7 +52,7 @@ class HtmlTest {
 
     @Test
     fun `render anchor`() {
-        Anchor("foo") renders """<a href="foo"></a>"""
+        Anchor("foo") renders """<a id="foo"></a>"""
     }
 
     @Test

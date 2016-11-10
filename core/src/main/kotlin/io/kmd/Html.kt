@@ -13,7 +13,7 @@ class Html {
             is Text.Struck -> HtmlStruck(t.elements.mapNotNull { toHtml(it) })
             is Text.Code -> HtmlCode(t.text)
             is Text.Link -> HtmlLink(t.src, t.desc)
-            is Text.Anchor -> HtmlAnchor(t.src)
+            is Text.Anchor -> HtmlAnchor(t.id)
             is Text.Image -> HtmlImage(t.src, t.alt)
         }
     }
@@ -166,13 +166,13 @@ private data class HtmlLink(val src: String, val desc: String) : HtmlElement() {
     override fun content(): String = desc
 }
 
-private data class HtmlAnchor(val src: String) : HtmlElement() {
+private data class HtmlAnchor(val id: String) : HtmlElement() {
 
     override fun tag() = "a"
 
     override fun attributes(): List<Pair<String, String>> =
             listOf(
-                    Pair("href", src))
+                    Pair("id", id))
                     .filter { it.second.isNotEmpty() }
 }
 

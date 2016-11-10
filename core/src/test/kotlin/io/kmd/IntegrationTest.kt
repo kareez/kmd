@@ -52,7 +52,7 @@ class IntegrationTest {
                     this is a normal paragraph with <strong>foo</strong>, <strong>bar</strong> and <del>baz</del>.
                 </p>
                 <p>
-                    check <a href="www.google.com">this</a> and <a href="#this"></a> and <img src="foo/image" alt="this" /> for more information
+                    check <a href="www.google.com">this</a> and <a id="#this"></a> and <img src="foo/image" alt="this" /> for more information
                 </p>
                 <quote>
                     <p>this is a quote in two lines</p>
