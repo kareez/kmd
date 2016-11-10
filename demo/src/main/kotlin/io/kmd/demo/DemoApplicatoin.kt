@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.ModelAndView
+import org.springframework.web.servlet.View
+import org.springframework.web.servlet.view.RedirectView
+import javax.servlet.http.HttpSession
 
 @SpringBootApplication
 open class DemoApplication {
@@ -34,19 +37,28 @@ class MainController
                        private val html: Html) {
 
     @GetMapping("/")
-    fun home(model: ModelMap): ModelAndView = ModelAndView("index", update(model, DEFAULT_MARKDOWN))
+    fun home(session: HttpSession): ModelAndView = modelAndView(session)
 
     @GetMapping("/reset")
-    fun reset(model: ModelMap): ModelAndView = ModelAndView("index", update(model, DEFAULT_MARKDOWN))
+    fun reset(session: HttpSession): View = updateAndRedirect(session, DEFAULT_MARKDOWN)
 
     @PostMapping("/view")
-    fun view(model: ModelMap,
-             @RequestParam markdown: String): ModelAndView = ModelAndView("index", update(model, markdown))
+    fun view(session: HttpSession,
+             @RequestParam markdown: String): View = updateAndRedirect(session, markdown)
 
-    private fun update(model: ModelMap, markdown: String): ModelMap {
-        model.addAttribute("markdown", markdown)
-        model.addAttribute("markup", html.render(parser.parse(markdown)))
-        return model
+    private fun updateAndRedirect(session: HttpSession, markdown: String): RedirectView {
+        session.setAttribute("markdown", markdown)
+
+        return RedirectView("/")
+    }
+
+    private fun modelAndView(session: HttpSession): ModelAndView {
+        val markdown = session.getAttribute("markdown") as String? ?: DEFAULT_MARKDOWN
+
+        return ModelAndView("index",
+                ModelMap()
+                        .addAttribute("markdown", markdown)
+                        .addAttribute("markup", html.render(parser.parse(markdown))))
     }
 }
 

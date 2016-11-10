@@ -1,4 +1,7 @@
 #### KMD (Markdown to HTML Converter)
+
+> __Kotlin implementatin of [mfp/ocsiblog](https://github.com/mfp/ocsiblog). A stand-alone, minimalistic blogging engine.__
+
 Try the [Live Demo](http://kmd-demo.cfapps.io/)
 
 ##### Headings
