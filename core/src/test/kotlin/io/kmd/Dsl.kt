@@ -146,13 +146,13 @@ class MdPlain(val text: String) : MdText() {
     override fun build(): Text = Text.Plain(text)
 }
 
-class MdEmph() : MdText(), TextContainer {
+class MdEmph : MdText(), TextContainer {
     override val children = mutableListOf<MdText>()
 
     override fun build(): Text = Text.Emph(children.map(MdText::build).toList())
 }
 
-class MdBold() : MdText(), TextContainer {
+class MdBold : MdText(), TextContainer {
     override val children = mutableListOf<MdText>()
 
     override fun build(): Text = Text.Bold(children.map(MdText::build).toList())

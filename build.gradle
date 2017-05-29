@@ -1,24 +1,28 @@
-group 'io.kmd'
-version '1.0-SNAPSHOT'
-
 buildscript {
-    ext.kotlin_version = '1.1-M02'
+    ext {
+        kotlinVersion = '1.1.2-4'
+        springBootVersion = '1.4.1.RELEASE'
+    }
 
     repositories {
         mavenCentral()
-        maven {
-            url "http://dl.bintray.com/kotlin/kotlin-eap-1.1"
-        }
     }
 
     dependencies {
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
     }
 }
 
-repositories {
-    mavenCentral()
-    maven {
-        url "http://dl.bintray.com/kotlin/kotlin-eap-1.1"
+allprojects {
+    group 'io.kmd'
+    version '1.0-SNAPSHOT'
+}
+
+subprojects {
+    apply plugin: "kotlin"
+
+    repositories {
+        mavenCentral()
     }
 }

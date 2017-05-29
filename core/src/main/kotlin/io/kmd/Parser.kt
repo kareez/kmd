@@ -176,7 +176,7 @@ class Parser {
 
         fun build(ls: List<String>): Pre = Pre(kind, ls.joinToString(separator = "\n", postfix = "\n"))
 
-        fun unescape(s: String): String = if (s.matches(Regex("^\\\\+```$"))) s.substring(1) else s
+        fun unescape(c: String): String = if (c.matches(Regex("^\\\\+```$"))) c.substring(1) else c
 
         fun readUntilEnd(firstIndent: Int, ls: MutableList<String>): Pre {
             return when {
@@ -234,7 +234,7 @@ class Parser {
                          make: (List<List<Paragraph>>) -> Paragraph,
                          match: (String) -> Boolean): Paragraph? {
 
-        fun readItem(indent: Int) = collect({ readParagraph(indent + 1, it) }, lines)
+        fun readItem(lineIndent: Int) = collect({ readParagraph(lineIndent + 1, it) }, lines)
 
         fun readAll(items: MutableList<List<Paragraph>>): Paragraph? {
             skipBlankLine(lines)
