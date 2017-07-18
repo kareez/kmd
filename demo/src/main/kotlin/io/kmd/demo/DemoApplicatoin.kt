@@ -2,7 +2,6 @@ package io.kmd.demo
 
 import io.kmd.Html
 import io.kmd.Parser
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.Bean
@@ -14,27 +13,26 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.servlet.ModelAndView
 import org.springframework.web.servlet.View
 import org.springframework.web.servlet.view.RedirectView
+import java.time.LocalDateTime
 import javax.servlet.http.HttpSession
 
 @SpringBootApplication
-open class DemoApplication {
+class DemoApplication {
 
     @Bean
-    open fun parser(): Parser = Parser()
+    fun parser(): Parser = Parser()
 
     @Bean
-    open fun html(): Html = Html()
+    fun html(): Html = Html()
 }
 
 fun main(args: Array<String>) {
     SpringApplication.run(DemoApplication::class.java, *args)
 }
 
-
 @Controller
-class MainController
-@Autowired constructor(private val parser: Parser,
-                       private val html: Html) {
+class MainController(private val parser: Parser,
+                     private val html: Html) {
 
     @GetMapping("/")
     fun home(session: HttpSession): ModelAndView = modelAndView(session)
@@ -43,8 +41,7 @@ class MainController
     fun reset(session: HttpSession): View = updateAndRedirect(session, DEFAULT_MARKDOWN)
 
     @PostMapping("/view")
-    fun view(session: HttpSession,
-             @RequestParam markdown: String): View = updateAndRedirect(session, markdown)
+    fun view(session: HttpSession, @RequestParam markdown: String): View = updateAndRedirect(session, markdown)
 
     private fun updateAndRedirect(session: HttpSession, markdown: String): RedirectView {
         session.setAttribute("markdown", markdown)
@@ -136,5 +133,9 @@ private val DEFAULT_MARKDOWN =
           val x = 10
           val y = 20
           val z = x + y
+        ```
+
+        ```
+            Last Update: 18 July
         ```
         """.trimIndent()

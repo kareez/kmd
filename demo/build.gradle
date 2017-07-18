@@ -1,4 +1,5 @@
 apply plugin: "spring-boot"
+apply plugin: "kotlin-spring"
 
 jar {
     baseName = "demo"
