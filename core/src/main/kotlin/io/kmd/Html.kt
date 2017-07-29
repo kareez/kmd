@@ -1,36 +1,33 @@
 package io.kmd
 
 class Html {
-    fun render(paragraphs: List<Paragraph>): String {
-        return paragraphs.map { it.toHtml().render() }.joinToString("")
+
+    fun render(paragraphs: List<Paragraph>): String =
+            paragraphs.map { it.toHtml().render() }.joinToString("")
+
+    private fun Text.toHtml(): HtmlElement = when (this) {
+        is Text.Plain -> HtmlText(text)
+        is Text.Emph -> HtmlEmph(elements.map { it.toHtml() })
+        is Text.Bold -> HtmlBold(elements.map { it.toHtml() })
+        is Text.Struck -> HtmlStruck(elements.mapNotNull { it.toHtml() })
+        is Text.Code -> HtmlCode(text)
+        is Text.Link -> HtmlLink(src, desc)
+        is Text.Anchor -> HtmlAnchor(id)
+        is Text.Image -> HtmlImage(src, alt)
     }
 
-    private fun Text.toHtml(): HtmlElement {
-        return when (this) {
-            is Text.Plain -> HtmlText(text)
-            is Text.Emph -> HtmlEmph(elements.map { it.toHtml() })
-            is Text.Bold -> HtmlBold(elements.map { it.toHtml() })
-            is Text.Struck -> HtmlStruck(elements.mapNotNull { it.toHtml() })
-            is Text.Code -> HtmlCode(text)
-            is Text.Link -> HtmlLink(src, desc)
-            is Text.Anchor -> HtmlAnchor(id)
-            is Text.Image -> HtmlImage(src, alt)
-        }
-    }
-
-    private fun Paragraph.toHtml(): HtmlElement {
-        return when (this) {
-            is Paragraph.Normal -> HtmlParagraph(elements.map { it.toHtml() })
-            is Paragraph.Heading -> HtmlHeading(i, elements.map { it.toHtml() })
-            is Paragraph.Pre -> HtmlPre(option, text)
-            is Paragraph.Quote -> HtmlQuote(paragraphs.map { it.toHtml() })
-            is Paragraph.Ulist -> HtmlUlist(items.map { it.map { it.toHtml() } })
-            is Paragraph.Olist -> HtmlOlist(items.map { it.map { it.toHtml() } })
-        }
+    private fun Paragraph.toHtml(): HtmlElement = when (this) {
+        is Paragraph.Normal -> HtmlParagraph(elements.map { it.toHtml() })
+        is Paragraph.Heading -> HtmlHeading(i, elements.map { it.toHtml() })
+        is Paragraph.Pre -> HtmlPre(option, text)
+        is Paragraph.Quote -> HtmlQuote(paragraphs.map { it.toHtml() })
+        is Paragraph.Ulist -> HtmlUlist(items.map { it.map { it.toHtml() } })
+        is Paragraph.Olist -> HtmlOlist(items.map { it.map { it.toHtml() } })
     }
 }
 
 private abstract class HtmlElement {
+
     companion object {
         private const val NOTHING = ""
     }

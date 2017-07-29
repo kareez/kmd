@@ -77,6 +77,7 @@ enum class ParagraphType {
     abstract fun match(s: String): Boolean
 
     companion object {
+
         fun from(s: String): ParagraphType = when {
             OLIST.match(s) -> OLIST
             ULIST.match(s) -> ULIST
