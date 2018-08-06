@@ -1,4 +1,4 @@
 rootProject.name = 'kmd'
 include 'core'
-include 'demo'
+include 'demo:backend'
 

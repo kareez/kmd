@@ -1,0 +1,9 @@
+applications:
+- name: kmd-backend
+  buildpack: java_buildpack
+  disk_quota: 256M
+  health-check-type: http
+  instances: 1
+  memory: 750M
+  stack: cflinuxfs2
+  path: ./build/libs/demo-1.0-SNAPSHOT.jar          

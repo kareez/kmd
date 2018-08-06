@@ -1,0 +1,6 @@
+applications:
+- name: kmd-demo
+  disk_quota: 32M
+  memory: 32M
+  instances: 1          
+  stack: cflinuxfs2
