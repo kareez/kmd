@@ -2,5 +2,7 @@ applications:
 - name: kmd-demo
   disk_quota: 32M
   memory: 32M
-  instances: 1          
+  instances: 1 
+  buildpack: staticfile_buildpack
+  path: ./build         
   stack: cflinuxfs2

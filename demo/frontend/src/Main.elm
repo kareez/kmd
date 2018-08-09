@@ -5,9 +5,9 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (onInput, onClick)
 import Http
 import Json.Encode as Encode exposing (string)
-import Json.Decode as Decode exposing (string)
 
 
+main : Program Never Model Msg
 main =
     Html.program
         { init = init
@@ -110,7 +110,7 @@ Triple backticks are used to format text as its own distinct block.
 ```
 
 ```
-    Last Update: Monday 6. August 2018
+    Last Update: Thursday 9. August 2018
 ```
 """
 

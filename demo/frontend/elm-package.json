@@ -4,7 +4,7 @@
     "repository": "https://github.com/kareez/kmd.git",
     "license": "BSD3",
     "source-directories": [
-        ""
+        "src"
     ],
     "exposed-modules": [],
     "dependencies": {
