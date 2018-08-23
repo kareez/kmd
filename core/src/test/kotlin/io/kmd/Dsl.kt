@@ -35,7 +35,7 @@ interface ParagraphContainer {
 
     fun h6(init: MdHead6.() -> Unit) = initElement(MdHead6(), init)
 
-    fun pre(option: String, text: String) = initElement(MdPre(option, text), {})
+    fun pre(option: String, text: String) = initElement(MdPre(option, text)) {}
 
     fun q(init: MdQuote.() -> Unit) = initElement(MdQuote(), init)
 
@@ -87,7 +87,7 @@ class MdNormal : MdParagraph(), TextContainer {
     override fun build(): Paragraph = Paragraph.Normal(this.children.map(MdText::build).toList())
 }
 
-open class MdHead(val i: Int) : MdParagraph(), TextContainer {
+open class MdHead(private val i: Int) : MdParagraph(), TextContainer {
     override val children = mutableListOf<MdText>()
 
     override fun build(): Paragraph = Paragraph.Heading(i, this.children.map(MdText::build).toList())
@@ -100,7 +100,7 @@ class MdHead4 : MdHead(4)
 class MdHead5 : MdHead(5)
 class MdHead6 : MdHead(6)
 
-class MdPre(val option: String, val text: String) : MdParagraph(), TextContainer {
+class MdPre(private val option: String, private val text: String) : MdParagraph(), TextContainer {
     override val children = mutableListOf<MdText>()
 
     override fun build(): Paragraph = Paragraph.Pre(option, text)
@@ -142,7 +142,7 @@ abstract class MdText {
     abstract fun build(): Text
 }
 
-class MdPlain(val text: String) : MdText() {
+class MdPlain(private val text: String) : MdText() {
     override fun build(): Text = Text.Plain(text)
 }
 
@@ -158,19 +158,19 @@ class MdBold : MdText(), TextContainer {
     override fun build(): Text = Text.Bold(children.map(MdText::build).toList())
 }
 
-class MdCode(val text: String) : MdText() {
+class MdCode(private val text: String) : MdText() {
     override fun build(): Text = Text.Code(text)
 }
 
-class MdLink(val src: String, val desc: String) : MdText() {
+class MdLink(private val src: String, private val desc: String) : MdText() {
     override fun build(): Text = Text.Link(src, desc)
 }
 
-class MdAnchor(val id: String) : MdText() {
+class MdAnchor(private val id: String) : MdText() {
     override fun build(): Text = Text.Anchor(id)
 }
 
-class MdImage(val src: String, val alt: String) : MdText() {
+class MdImage(private val src: String, private val alt: String) : MdText() {
     override fun build(): Text = Text.Image(src, alt)
 }
 

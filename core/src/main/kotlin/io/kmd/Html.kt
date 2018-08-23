@@ -3,13 +3,13 @@ package io.kmd
 class Html {
 
     fun render(paragraphs: List<Paragraph>): String =
-            paragraphs.map { it.toHtml().render() }.joinToString("")
+            paragraphs.joinToString("") { it.toHtml().render() }
 
     private fun Text.toHtml(): HtmlElement = when (this) {
         is Text.Plain -> HtmlText(text)
         is Text.Emph -> HtmlEmph(elements.map { it.toHtml() })
         is Text.Bold -> HtmlBold(elements.map { it.toHtml() })
-        is Text.Struck -> HtmlStruck(elements.mapNotNull { it.toHtml() })
+        is Text.Struck -> HtmlStruck(elements.map { it.toHtml() })
         is Text.Code -> HtmlCode(text)
         is Text.Link -> HtmlLink(src, desc)
         is Text.Anchor -> HtmlAnchor(id)
@@ -21,8 +21,8 @@ class Html {
         is Paragraph.Heading -> HtmlHeading(i, elements.map { it.toHtml() })
         is Paragraph.Pre -> HtmlPre(option, text)
         is Paragraph.Quote -> HtmlQuote(paragraphs.map { it.toHtml() })
-        is Paragraph.Ulist -> HtmlUlist(items.map { it.map { it.toHtml() } })
-        is Paragraph.Olist -> HtmlOlist(items.map { it.map { it.toHtml() } })
+        is Paragraph.Ulist -> HtmlUlist(items.map { paragraphs -> paragraphs.map { it.toHtml() } })
+        is Paragraph.Olist -> HtmlOlist(items.map { paragraphs -> paragraphs.map { it.toHtml() } })
     }
 }
 
@@ -32,11 +32,11 @@ private abstract class HtmlElement {
         private const val NOTHING = ""
     }
 
-    open protected fun tag(): String = NOTHING
+    protected open fun tag(): String = NOTHING
 
-    open protected fun attributes(): List<Attribute> = emptyList()
+    protected open fun attributes(): List<Attribute> = emptyList()
 
-    open protected fun hasBody(): Boolean = true
+    protected open fun hasBody(): Boolean = true
 
     protected open fun content(): String = NOTHING
 
@@ -49,10 +49,7 @@ private abstract class HtmlElement {
             tag == NOTHING -> content
             content == NOTHING && attributes.isEmpty() -> NOTHING
             else -> {
-                val joinedAttributes = attributes
-                        .map { it.render() }
-                        .joinToString(separator = " ", prefix = " ")
-                        .trimEnd()
+                val joinedAttributes = attributes.joinToString(separator = " ", prefix = " ") { it.render() }.trimEnd()
 
                 if (!hasBody())
                     "<$tag$joinedAttributes />"
@@ -68,7 +65,7 @@ private data class HtmlParagraph(val elements: List<HtmlElement>) : HtmlElement(
     override fun tag() = "p"
 
     override fun content() =
-            elements.map { it.render() }.joinToString("")
+            elements.joinToString("") { it.render() }
 }
 
 private data class HtmlHeading(val i: Int, val elements: List<HtmlElement>) : HtmlElement() {
@@ -76,7 +73,7 @@ private data class HtmlHeading(val i: Int, val elements: List<HtmlElement>) : Ht
     override fun tag() = "h$i"
 
     override fun content() =
-            elements.map { it.render() }.joinToString("")
+            elements.joinToString("") { it.render() }
 }
 
 private data class HtmlPre(val option: String, val text: String) : HtmlElement() {
@@ -91,7 +88,7 @@ private data class HtmlQuote(val elements: List<HtmlElement>) : HtmlElement() {
     override fun tag() = "quote"
 
     override fun content() =
-            elements.map { it.render() }.joinToString("")
+            elements.joinToString("") { it.render() }
 }
 
 private data class HtmlUlist(val elements: List<List<HtmlElement>>) : HtmlElement() {
@@ -99,11 +96,11 @@ private data class HtmlUlist(val elements: List<List<HtmlElement>>) : HtmlElemen
     override fun tag() = "ul"
 
     override fun content() =
-            elements.map { li ->
-                li.map {
+            elements.joinToString("") { li ->
+                li.joinToString("") {
                     "<li>${it.render()}</li>"
-                }.joinToString("")
-            }.joinToString("")
+                }
+            }
 }
 
 private data class HtmlOlist(val elements: List<List<HtmlElement>>) : HtmlElement() {
@@ -111,11 +108,11 @@ private data class HtmlOlist(val elements: List<List<HtmlElement>>) : HtmlElemen
     override fun tag() = "ol"
 
     override fun content() =
-            elements.map { li ->
-                li.map {
+            elements.joinToString("") { li ->
+                li.joinToString("") {
                     "<li>${it.render()}</li>"
-                }.joinToString("")
-            }.joinToString("")
+                }
+            }
 }
 
 private data class HtmlText(val text: String) : HtmlElement() {
@@ -129,20 +126,20 @@ private data class HtmlEmph(val elements: List<HtmlElement>) : HtmlElement() {
 
     override fun tag() = "em"
 
-    override fun content() = elements.map { it.render() }.joinToString("")
+    override fun content() = elements.joinToString("") { it.render() }
 }
 
 private data class HtmlBold(val elements: List<HtmlElement>) : HtmlElement() {
     override fun tag() = "strong"
 
-    override fun content() = elements.map { it.render() }.joinToString("")
+    override fun content() = elements.joinToString("") { it.render() }
 }
 
 private data class HtmlStruck(val elements: List<HtmlElement>) : HtmlElement() {
 
     override fun tag() = "del"
 
-    override fun content() = elements.map { it.render() }.joinToString("")
+    override fun content() = elements.joinToString("") { it.render() }
 }
 
 private data class HtmlCode(val code: String) : HtmlElement() {

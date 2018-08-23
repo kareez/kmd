@@ -128,16 +128,10 @@ class Parser {
         }
 
         val line = lines.first()
-        return if (line.isBlank) {
-            lines.removeAt(0)
-            null
-
-        } else if (line.indent < indent) {
-            null
-
-        } else {
-            lines.removeAt(0)
-            readNonEmpty(line, lines)
+        return when {
+            line.isBlank -> lines.removeAt(0).run { null }
+            line.indent < indent -> null
+            else -> lines.removeAt(0).run { readNonEmpty(line, lines) }
         }
     }
 
@@ -223,11 +217,11 @@ class Parser {
     }
 
     private fun readUlist(indent: Int, lines: MutableList<Line>): Paragraph? {
-        return readList(indent, lines, ::Ulist, { ULIST.match(it) })
+        return readList(indent, lines, ::Ulist) { ULIST.match(it) }
     }
 
     private fun readOlist(indent: Int, lines: MutableList<Line>): Paragraph? {
-        return readList(indent, lines, ::Olist, { OLIST.match(it) })
+        return readList(indent, lines, ::Olist) { OLIST.match(it) }
     }
 
     private fun readList(indent: Int,
@@ -255,9 +249,9 @@ class Parser {
     private fun readNormal(lines: MutableList<Line>): Paragraph {
         val content = lines.takeWhile {
             !it.isBlank && ParagraphType.from(it.content) == NORMAL
-        }.map {
+        }.joinToString(" ") {
             lines.removeAt(0).content
-        }.joinToString(" ")
+        }
 
         return Normal(scan(content, State(content.length), 0))
     }

@@ -79,7 +79,7 @@ class IntegrationTest {
     }
 
     private fun verify(md: String, mu: String) {
-        val normalized = mu.split("\n").map(String::trim).joinToString("")
+        val normalized = mu.split("\n").joinToString("", transform = String::trim)
 
         assertEquals(normalized, html.render(parser.parse(md)).replace("\n", ""))
     }
