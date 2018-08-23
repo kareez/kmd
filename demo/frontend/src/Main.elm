@@ -110,7 +110,7 @@ Triple backticks are used to format text as its own distinct block.
 ```
 
 ```
-    Last Update: Thursday 9. August 2018
+    Last Update: Thursday 23. August 2018
 ```
 """
 
