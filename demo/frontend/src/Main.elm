@@ -1,19 +1,19 @@
-module Main exposing (..)
+module Main exposing (Model, Msg(..), convert, init, main, sample, update, view)
 
+import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Html.Events exposing (onInput, onClick)
+import Html.Events exposing (onClick, onInput)
 import Http
 import Json.Encode as Encode exposing (string)
 
 
 main : Program Never Model Msg
 main =
-    Html.program
+    Browser.sandbox
         { init = init
         , view = view
         , update = update
-        , subscriptions = \_ -> Sub.none
         }
 
 
@@ -138,7 +138,7 @@ update msg model =
             ( { model | markup = markup }, Cmd.none )
 
         Done (Err error) ->
-            ( { model | markup = "<h3>Ops...!</h3><code>" ++ toString error ++ "</code>" }, Cmd.none )
+            ( { model | markup = "<h3>Ops...!</h3><code>" ++  error ++ "</code>" }, Cmd.none )
 
 
 
@@ -147,7 +147,7 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    body []
+    div []
         [ h3 [ class "headline" ] [ text "A live demo of supported markdowns" ]
         , div [ class "mdl-grid" ]
             [ div [ class "mdl-cell mdl-cell--4-col" ]
@@ -180,4 +180,4 @@ convert markdown =
                 , withCredentials = False
                 }
     in
-        Http.send Done request
+    Http.send Done request
